@@ -1,4 +1,5 @@
-# 03-fundamentos
+# Indesition App
+App que que nos responde si/no con base en lo que lo que le preguntemos y a parte nos muestra un gif de fondo.
 
 ## Project setup
 ```
