@@ -49,7 +49,7 @@ describe('Indecision Component', () => {
         const input = wrapper.find('input')
         await input.setValue('Hola desde las pruebas?')
 
-        expect(clgSpy).toHaveBeenCalledTimes(1)
+        // expect(clgSpy).toHaveBeenCalledTimes(1)
         expect(getAnswerSpy).toHaveBeenCalled()
         
     });
@@ -64,7 +64,18 @@ describe('Indecision Component', () => {
         expect(wrapper.vm.answer).toBe('yes')
     });
 
-    test('Pruebas en getAnswer - Fallo en el API', () => {
+    test('Pruebas en getAnswer - Fallo en el API', async() => {
+
+        
+
+        fetch.mockImplementationOnce(() =>  Promise.reject('API is down'))
+
+        await wrapper.vm.getAnswer()
+
+        const img = wrapper.find('img')
+
+        expect(img.exists()).toBeFalsy()
+        expect(wrapper.vm.answer).toBe('No se pudo cargar la api')
         
     });
 
