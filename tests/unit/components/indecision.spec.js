@@ -6,7 +6,13 @@ describe('Indecision Component', () => {
     let wrapper
     let clgSpy
 
-    global.fetch = jest.fn()
+    global.fetch = jest.fn( () => Promise.resolve({
+        json: () => Promise.resolve({
+            'answer': "yes",
+            'force': 'false',
+            'image': 'https://yesno.wtf/assets/yes/2.gif'
+        })
+    }))
 
     beforeEach(() => {
         wrapper = shallowMount(Indecision)
@@ -48,8 +54,14 @@ describe('Indecision Component', () => {
         
     });
 
-    test('Pruebas en getAnswer', () => {
-        
+    test('Pruebas en getAnswer', async() => {
+
+        await wrapper.vm.getAnswer()
+
+        const img = wrapper.find('img')
+        expect(img.exists()).toBeTruthy()
+        expect(wrapper.vm.img).toBe('https://yesno.wtf/assets/yes/2.gif')
+        expect(wrapper.vm.answer).toBe('yes')
     });
 
     test('Pruebas en getAnswer - Fallo en el API', () => {
